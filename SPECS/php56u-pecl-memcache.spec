@@ -6,7 +6,7 @@
 Summary: Extension to work with the Memcached caching daemon
 Name: %{php_base}-pecl-memcache
 Version: 3.0.8
-Release: 4.ius%{?dist}
+Release: 5.ius%{?dist}
 License: PHP
 Group: Development/Languages
 Vendor: IUS Community Project
@@ -23,16 +23,24 @@ Requires(postun): %{php_base}-pear
 Requires: php(zend-abi) = %{php_zend_api}
 Requires: php(api) = %{php_core_api}
 
-Provides:     php-pecl(%{pecl_name}) = %{version}
-Provides:     php-pecl(%{pecl_name})%{?_isa} = %{version}
-Provides:     php-%{pecl_name} = %{version}
-Provides:     php-%{pecl_name}%{?_isa} = %{version}
-Provides:     %{php_base}-pecl(%{pecl_name}) = %{version}
-Provides:     %{php_base}-pecl(%{pecl_name})%{?_isa} = %{version}
-Provides:     %{php_base}-%{pecl_name} = %{version}
-Provides:     %{php_base}-%{pecl_name}%{?_isa} = %{version}
-Provides:     %{real_name} = %{version}-%{release}
-Conflicts:    %{real_name} < %{version}
+# provide the stock name
+Provides: php-pecl-%{pecl_name} = %{version}
+Provides: php-pecl-%{pecl_name}%{?_isa} = %{version}
+
+# provide the stock and IUS names without pecl
+Provides: php-%{pecl_name} = %{version}
+Provides: php-%{pecl_name}%{?_isa} = %{version}
+Provides: %{php_base}-%{pecl_name} = %{version}
+Provides: %{php_base}-%{pecl_name}%{?_isa} = %{version}
+
+# provide the stock and IUS names in pecl() format
+Provides: php-pecl(%{pecl_name}) = %{version}
+Provides: php-pecl(%{pecl_name})%{?_isa} = %{version}
+Provides: %{php_base}-pecl(%{pecl_name}) = %{version}
+Provides: %{php_base}-pecl(%{pecl_name})%{?_isa} = %{version}
+
+# conflict with the stock name
+Conflicts: php-pecl-%{pecl_name} < %{version}
 
 %if 0%{?fedora} < 20 && 0%{?rhel} < 7
 # Filter shared private
@@ -168,6 +176,9 @@ fi
 
 
 %changelog
+* Tue Mar 15 2016 Carl George <carl.george@rackspace.com> - 3.0.8-5.ius
+- Clean up provides
+
 * Wed Apr 01 2015 Ben Harper <ben.harper@rackspace.com> - 3.0.8-4.ius
 - porting from php55u-pecl-memcache
 
