@@ -9,7 +9,6 @@ Version: 3.0.8
 Release: 5.ius%{?dist}
 License: PHP
 Group: Development/Languages
-Vendor: IUS Community Project
 URL: http://pecl.php.net/package/%{pecl_name}
 
 Source: http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
