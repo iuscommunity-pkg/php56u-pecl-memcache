@@ -138,7 +138,7 @@ popd
 %endif
 
 # Install XML package description
-%{__install} -Dpm 644 package.xml %{buildroot}%{pecl_xmldir}/%{name}.xml
+%{__install} -Dpm 644 package.xml %{buildroot}%{pecl_xmldir}/%{pecl_name}.xml
 
 # Test & Documentation
 for i in $(grep 'role="test"' package.xml | sed -e 's/^.*name="//;s/".*$//')
@@ -164,7 +164,7 @@ done
 
 
 %post
-%{pecl_install} %{pecl_xmldir}/%{name}.xml >/dev/null || :
+%{pecl_install} %{pecl_xmldir}/%{pecl_name}.xml >/dev/null || :
 
 
 %postun
@@ -176,7 +176,7 @@ fi
 %files
 %doc %{pecl_docdir}/%{pecl_name}
 %doc %{pecl_testdir}/%{pecl_name}
-%{pecl_xmldir}/%{name}.xml
+%{pecl_xmldir}/%{pecl_name}.xml
 %config(noreplace) %{php_inidir}/%{ini_name}
 %{php_extdir}/%{pecl_name}.so
 %if %{with_zts}
@@ -190,6 +190,7 @@ fi
 - Clean up provides
 - Clean up filters
 - ZTS clean up
+- Install package.xml as %%{pecl_name}.xml, not %%{name}.xml
 
 * Wed Apr 01 2015 Ben Harper <ben.harper@rackspace.com> - 3.0.8-4.ius
 - porting from php55u-pecl-memcache
