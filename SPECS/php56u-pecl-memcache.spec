@@ -2,6 +2,7 @@
 %global real_name php-pecl-memcache
 %global ini_name  40-%{pecl_name}.ini
 %global php_base php56u
+%global with_zts 0%{?__ztsphp:1}
 
 Summary: Extension to work with the Memcached caching daemon
 Name: %{php_base}-pecl-memcache
@@ -106,27 +107,35 @@ extension=%{pecl_name}.so
 ;session.save_path="tcp://localhost:11211?persistent=1&weight=1&timeout=1&retry_interval=15"
 EOF
 
+%if %{with_zts}
 cp -r NTS ZTS
+%endif
 
 
 %build
-cd NTS
+pushd NTS
 %{_bindir}/phpize
 %configure --with-php-config=%{_bindir}/php-config
 %{__make} %{?_smp_mflags}
+popd
 
-cd ../ZTS
+%if %{with_zts}
+pushd ZTS
 %{_bindir}/zts-phpize
 %configure --with-php-config=%{_bindir}/zts-php-config
 %{__make} %{?_smp_mflags}
+popd
+%endif
 
 
 %install
 %{__make} -C NTS install INSTALL_ROOT=%{buildroot}
 %{__install} -D -m 644 %{ini_name} %{buildroot}%{php_inidir}/%{ini_name}
 
+%if %{with_zts}
 %{__make} -C ZTS install INSTALL_ROOT=%{buildroot}
 %{__install} -D -m 644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
+%endif
 
 # Install XML package description
 %{__install} -Dpm 644 package.xml %{buildroot}%{pecl_xmldir}/%{name}.xml
@@ -146,11 +155,12 @@ done
 %{__php} --no-php-ini \
     --define extension=%{buildroot}%{php_extdir}/%{pecl_name}.so \
     -m | grep %{pecl_name}
-
+%if %{with_zts}
 : Minimal load test for ZTS extension
 %{__ztsphp} --no-php-ini \
     --define extension=%{buildroot}%{php_ztsextdir}/%{pecl_name}.so \
     -m | grep %{pecl_name}
+%endif
 
 
 %post
@@ -169,15 +179,17 @@ fi
 %{pecl_xmldir}/%{name}.xml
 %config(noreplace) %{php_inidir}/%{ini_name}
 %{php_extdir}/%{pecl_name}.so
+%if %{with_zts}
 %config(noreplace) %{php_ztsinidir}/%{ini_name}
 %{php_ztsextdir}/%{pecl_name}.so
-
+%endif
 
 
 %changelog
 * Tue Mar 15 2016 Carl George <carl.george@rackspace.com> - 3.0.8-5.ius
 - Clean up provides
 - Clean up filters
+- ZTS clean up
 
 * Wed Apr 01 2015 Ben Harper <ben.harper@rackspace.com> - 3.0.8-4.ius
 - porting from php55u-pecl-memcache
