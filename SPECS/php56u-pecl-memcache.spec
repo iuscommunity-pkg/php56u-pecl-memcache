@@ -228,7 +228,7 @@ fi
 - Rebuild against php53u-5.3.4
 - BuildRequires: php53u-cli 
 
-* Mon Jul 27 2010 BJ Dierkes <wdierkes@rackspace.com> - 0:2.2.5-2.ius
+* Tue Jul 27 2010 BJ Dierkes <wdierkes@rackspace.com> - 0:2.2.5-2.ius
 - Rebuild for php 5.3.3
 
 * Tue Jun 22 2010 BJ Dierkes <wdierkes@rackspace.com> - 0:2.2.5-1.ius
