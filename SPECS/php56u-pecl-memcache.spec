@@ -1,5 +1,4 @@
 %global pecl_name memcache
-%global real_name php-pecl-memcache
 %global ini_name  40-%{pecl_name}.ini
 %global php_base php56u
 %global with_zts 0%{?__ztsphp:1}
@@ -61,7 +60,7 @@ Memcache can be used as a PHP session handler.
 
 
 %prep
-%setup -c -n %{real_name}-%{version} -q
+%setup -qc
 mv %{pecl_name}-%{version} NTS
 %{_bindir}/php %{SOURCE2} package.xml > CHANGELOG
 
