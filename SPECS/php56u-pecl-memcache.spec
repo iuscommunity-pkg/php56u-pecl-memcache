@@ -6,7 +6,7 @@
 Summary: Extension to work with the Memcached caching daemon
 Name: %{php_base}-pecl-memcache
 Version: 3.0.8
-Release: 5.ius%{?dist}
+Release: 6.ius%{?dist}
 License: PHP
 Group: Development/Languages
 URL: http://pecl.php.net/package/%{pecl_name}
